@@ -1,0 +1,53 @@
+﻿@using Domain.EntitiesDTO
+@model List<ProductCategory>
+
+<div class="row">
+    <div class="col-md-12">
+        <a asp-action="Create" asp-controller="Product" class="btn btn-success">Добавить</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+            <tr>     
+                    <td>Названия</td>
+                    <td>Стоимость</td> 
+                    <td>Количество</td>
+                    <td>Год издательство</td> 
+                    <td>Страна</td>
+                    <td>Гарантия до </td> 
+                    <td>Категория</td>
+                           
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    
+                    <td>@item.Name</td>
+                    <td>@item.Price</td> 
+                    <td>@item.Quantity</td>
+                    <td>@item.GodVipuska</td> 
+                    <td>@item.Country</td>
+                    <td>@item.Garantiya</td>                   
+                    <td>@item.CategoryName</td>
+                     
+                   
+                   
+
+                    <td>
+                        <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.Id">
+                            Измениить
+                        </a>
+                        <a asp-action="Delete" asp-controller="Product" asp-route-id="@item.Id">
+                            Удалить
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

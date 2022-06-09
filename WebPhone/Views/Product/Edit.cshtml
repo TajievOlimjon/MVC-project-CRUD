@@ -1,0 +1,52 @@
+﻿@using Domain.EntitiesDTO
+@model ProductDTO
+
+
+
+<form asp-action="Edit"  method="post">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label>Названия:</label>
+                <input asp-for="Name" type="text" class="form-control " placeholder="Введите названия" tabindex="1">
+            </div>
+            <div class="form-group">
+                <label>Стоимость:</label>
+                <input asp-for="Price" type="text" class="form-control" placeholder="Введите стоимость" tabindex="2">
+            </div>
+             <div class="form-group">
+                <label>Количество:</label>
+                <input asp-for="Quantity" type="text" class="form-control" placeholder="Введите количеству" tabindex="2">
+            </div>
+             <div class="form-group">
+                <label>Год издательство:</label>
+                <input asp-for="GodVipuska" type="text" class="form-control" placeholder="Введите год издательство" tabindex="2">
+            </div>
+             <div class="form-group">
+                <label>Страна:</label>
+                <input asp-for="Country" type="text" class="form-control" placeholder="Введите описанию" tabindex="2">
+            </div>
+             <div class="form-group">
+                <label>Гарантия до:</label>
+                <input asp-for="Garantiya" type="text" class="form-control" placeholder="Введите гарантию" tabindex="2">
+            </div>
+             <div class="form-group">
+                          <label>Категория:</label>
+                 <select class="form-select" asp-for="CtegoryId" asp-items="@(new SelectList(ViewBag.Categories,"Id","Name"))" >
+                      <option value="0" selected>Open this select menu</option>
+                 </select>
+
+              </div>
+           
+            <div class="form-group">
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+            <div class="card-footer">
+                <center>
+                    <button type="submit" class="btn btn-primary">Изменить</button>
+                    <a asp-action="GetAll" asp-controller="Product" class="btn btn-secondary">Оменить</a>
+                </center>
+            </div>
+        </div>
+    </div>
+</form>
