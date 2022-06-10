@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Domain.EntitiesDTO;
+using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 using Services.InterfaceServices;
 using System;
@@ -22,50 +23,50 @@ namespace Services.ClassServices
             this.mapper = mapper;
         }
 
-        public List<CategoryDTO> GetCategories()
+        public async Task<List<CategoryDTO>> GetCategories()
         {
-            var list = (from c in context.Categories
+            var list =await (from c in context.Categories
                         select new CategoryDTO
                         {
                             Id = c.Id,
                             Name = c.Name,
                             Description = c.Description
-                        }).ToList();
+                        }).ToListAsync();
             return list;
         }
-        public CategoryDTO GetCategoryById(int id)
+        public async Task<CategoryDTO> GetCategoryById(int id)
         {
-            var list = (from c in context.Categories
+            var list = await (from c in context.Categories
                         where c.Id == id
                         select new CategoryDTO
                         {
                             Id = c.Id,
                             Name = c.Name,
                             Description = c.Description
-                        }).FirstOrDefault();
+                        }).FirstOrDefaultAsync();
             if (list == null) return new CategoryDTO();
             return list;
         }
-        public int Insert(CategoryDTO category)
+        public async Task<int> Insert(CategoryDTO category)
         {
             var newCategory = mapper.Map<Category>(category);
-            context.Categories.Add(newCategory);
-            return context.SaveChanges();
+            await context.Categories.AddAsync(newCategory);
+            return await context.SaveChangesAsync();
         }
-        public int Update(CategoryDTO category)
+        public async Task<int> Update(CategoryDTO category)
         {
-            var c = context.Categories.Find(category.Id);
+            var c = await context.Categories.FindAsync(category.Id);
             if (c == null) return 0;
             c.Name = category.Name;
             c.Description = category.Description;
-           return  context.SaveChanges();
+           return await  context.SaveChangesAsync();
         }
-        public int Delete(int Id)
+        public async Task<int> Delete(int Id)
         {
-            var category = context.Categories.Find(Id);
+            var category = await context.Categories.FindAsync(Id);
             if (category == null) return 0;
-            context.Categories.Remove(category);
-            return context.SaveChanges();
+             context.Categories.Remove(category);
+            return await context.SaveChangesAsync();
         }
 
         

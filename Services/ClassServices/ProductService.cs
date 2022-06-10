@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Domain.EntitiesDTO;
+using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 using Services.InterfaceServices;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,9 +20,9 @@ namespace Services.ClassServices
             this.context = context;
             this.mapper = mapper;
         }
-        public List<ProductCategory> GetProductCategories()
+        public async Task<List<ProductCategory>> GetProductCategories()
         {
-            var listOfProducts = (
+            var listOfProducts =await (
 
                  from p in context.Products
                  join c in context.Categories  on p.CtegoryId equals c.Id
@@ -40,14 +39,14 @@ namespace Services.ClassServices
                      CategoryName=c.Name
 
 
-                 }).ToList();
+                 }).ToListAsync();
             if (listOfProducts == null) return new List<ProductCategory>();
             return listOfProducts;
         }
 
-        public  List<ProductDTO> GetProducts()
+        public async  Task<List<ProductDTO>> GetProducts()
         {
-            var listOfProducts = (
+            var listOfProducts =await (
 
                 from p in context.Products
                 select new ProductDTO
@@ -61,16 +60,15 @@ namespace Services.ClassServices
                     Garantiya=p.Garantiya,
                     CtegoryId=p.CtegoryId
                     
-                }).ToList();
+                }).ToListAsync();
             if (listOfProducts == null) return new List<ProductDTO>();
             return listOfProducts;
         }
    
-       public  ProductDTO GetProductById(int Id)
+       public async Task<ProductDTO> GetProductById(int Id)
         {
-            var listOfProducts = (
-
-               from p in context.Products
+            var listOfProducts =await  (
+               from p in  context.Products
                where p.Id==Id
                select new ProductDTO
                {
@@ -82,20 +80,20 @@ namespace Services.ClassServices
                    Country = p.Country,
                    Garantiya = p.Garantiya,
                    CtegoryId=p.CtegoryId
-               }).FirstOrDefault();
+               }).FirstOrDefaultAsync();
             if (listOfProducts == null) return new ProductDTO();
-            return listOfProducts;
+            return  listOfProducts;
         }
-       public  int Insert(ProductDTO product)
+       public async Task<int> Insert(ProductDTO product)
         {
-            var newProduct = mapper.Map<Product>(product);
+            var newProduct =  mapper.Map<Product>(product);
             context.Products.Add(newProduct);
-            return context.SaveChanges();
+            return await context.SaveChangesAsync();
         }
-       public  int Update(ProductDTO product)
+       public async  Task<int> Update(ProductDTO product)
         {
-            var p=context.Products.Find(product.Id);
-
+            var p= await context.Products.FindAsync(product.Id);
+            if (p == null) return 0;
             p.Name = product.Name;
             p.Price = product.Price;
             p.Quantity = product.Quantity;
@@ -103,15 +101,15 @@ namespace Services.ClassServices
             p.Country = product.Country;
             p.Garantiya = product.Garantiya;
             p.CtegoryId = product.CtegoryId;
-           return  context.SaveChanges();
+           return  await context.SaveChangesAsync();
 
         }
-       public  int Delete(int id)
+       public async  Task<int> Delete(int id)
         {
-            var product = context.Products.Find(id);
+            var product = await context.Products.FindAsync(id);
             if (product == null) return 0;
-            context.Products.Remove(product);
-            return context.SaveChanges();
+               context.Products.Remove(product);
+            return await context.SaveChangesAsync();
 
         }
 

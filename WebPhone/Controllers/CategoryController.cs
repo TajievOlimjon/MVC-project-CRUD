@@ -14,9 +14,9 @@ namespace WebPhone.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var list = categoryService.GetCategories();
+            var list = await categoryService.GetCategories();
             return View(list);
         }
 
@@ -26,15 +26,15 @@ namespace WebPhone.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View(new CategoryDTO());
+            return  View(new CategoryDTO());
         }
 
         [HttpPost]
-        public IActionResult Create(CategoryDTO category)
+        public async Task<IActionResult> Create(CategoryDTO category)
         {
             if (ModelState.IsValid == true)
             {
-                categoryService.Insert(category);
+                 await categoryService.Insert(category);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -42,27 +42,27 @@ namespace WebPhone.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int Id)
+        public async Task<IActionResult> Edit(int Id)
         {
-          var list=  categoryService.GetCategoryById(Id);
+          var list= await  categoryService.GetCategoryById(Id);
             return View(list);
         }
 
         [HttpPost]
-        public IActionResult Edit(CategoryDTO category)
+        public async  Task<IActionResult> Edit(CategoryDTO category)
         {
             if (ModelState.IsValid == false)
             {
                 return View(category);
              }
-            categoryService.Update(category);
+             await categoryService.Update(category);
             return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
-        public IActionResult Delete(int Id)
+        public async Task<IActionResult> Delete(int Id)
         {
-            categoryService.Delete(Id);
+            await categoryService.Delete(Id);
             return RedirectToAction(nameof(Index));
         }
 

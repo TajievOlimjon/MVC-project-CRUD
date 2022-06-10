@@ -9,13 +9,13 @@ namespace Services.InterfaceServices
 {
     public  interface IProductService
     {
-        List<ProductCategory> GetProductCategories();
-        List<ProductDTO> GetProducts();
+        Task<List<ProductCategory>> GetProductCategories();
+        Task<List<ProductDTO>> GetProducts();
+        Task<ProductDTO> GetProductById(int Id);
+        Task<int> Insert(ProductDTO product);
+        Task<int> Update(ProductDTO product);
+        Task<int> Delete(int id);
 
-        ProductDTO GetProductById(int Id);
-        int Insert(ProductDTO product);
-        int Update(ProductDTO product);
-        int Delete(int id);
 
     }
 }

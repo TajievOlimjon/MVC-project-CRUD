@@ -16,35 +16,35 @@ namespace WebPhone.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var list = productService.GetProducts();
+            var list = await productService.GetProducts();
             return View(list);
         }
 
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var list = productService.GetProductCategories();
+            var list = await productService.GetProductCategories();
             return View(list);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            var categories = categoryService.GetCategories();
+            var categories =  categoryService.GetCategories();
             
             ViewBag.Categories = categories;
-            return View(new ProductDTO());
+            return  View(new ProductDTO());
         }
 
         [HttpPost]
-        public IActionResult Create(ProductDTO product)
+        public async Task<IActionResult> Create(ProductDTO product)
         {
             if (ModelState.IsValid == true)
             {
-                productService.Insert(product);
+               await productService.Insert(product);
                 return RedirectToAction(nameof(GetAll));
 
             }                     
@@ -55,36 +55,34 @@ namespace WebPhone.Controllers
 
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var listofById = productService.GetProductById(id);
+            var listofById =await  productService.GetProductById(id);
             var categories = categoryService.GetCategories();
             ViewBag.Categories = categories;
             return View(listofById);
         }
 
         [HttpPost]
-        public IActionResult Edit(ProductDTO product )
+        public async Task<IActionResult> Edit(ProductDTO product )
         {
-            var categories = categoryService.GetCategories();
+            var categories =  categoryService.GetCategories();
             ViewBag.Categories = categories;
 
             if (ModelState.IsValid == false)
-            {
-                 
-                return View(product);
-
+            {                 
+                return  View(product);
             }
              
-            productService.Update(product);
+            await productService.Update(product);
             return RedirectToAction(nameof(GetAll));
         }
 
         [HttpGet]
-       public IActionResult Delete(int Id)
+       public async Task<IActionResult> Delete(int Id)
         {
-            var d = productService.Delete(Id);
-            return RedirectToAction(nameof(GetAll));
+            var d = await productService.Delete(Id);
+            return   RedirectToAction(nameof(GetAll));
         }
 
        

@@ -9,10 +9,10 @@ namespace Services.InterfaceServices
 {
     public  interface ICategoryService
     {
-        List<CategoryDTO> GetCategories();
-        CategoryDTO GetCategoryById(int id);
-        int Insert(CategoryDTO category);
-        int Update(CategoryDTO category);
-        int Delete(int Id);
+        Task<List<CategoryDTO>> GetCategories();
+        Task<CategoryDTO> GetCategoryById(int id);
+        Task<int> Insert(CategoryDTO category);
+        Task<int> Update(CategoryDTO category);
+        Task<int> Delete(int Id);
     }
 }
