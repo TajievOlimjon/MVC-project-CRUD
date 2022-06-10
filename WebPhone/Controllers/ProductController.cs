@@ -31,9 +31,9 @@ namespace WebPhone.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var categories =  categoryService.GetCategories();
+            var categories = await  categoryService.GetCategories();
             
             ViewBag.Categories = categories;
             return  View(new ProductDTO());
